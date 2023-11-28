@@ -18,7 +18,7 @@ class BookController extends Controller
         $books = book::select('id', 'title', 'author' ,'publication_year' ,'summary' ,'is_deleted')
             ->where('is_deleted', '=', '0')
             ->get()
-            ->paginate(3);
+            ->paginate(10);
 
         return view('book.index', [
             'books' => $books
