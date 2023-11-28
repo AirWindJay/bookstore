@@ -2,6 +2,7 @@
     <head>
         <title>BOOKSTORE</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         @yield('css')
     </head>
     <body>
@@ -26,5 +27,6 @@
         <div class="container">
             @yield('content')
         </div>
+        @yield('javascript')
     </body>
 </html>

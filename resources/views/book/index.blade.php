@@ -11,26 +11,7 @@ td, th {
 @section('content')
 
     <h1>Book Store</h1>
-    <!-- <div class="row">
-        @foreach($books as $book)
-            <div class="card col-3" style="margin:15px">
-            <a href="/book/show/{{$book->id}}" class="btn btn-sm btn-info mt-2" style="width: 25%">View</a>
-                <div class="card-body">
-                    <h5 class="card-title">{{$book->title}}</h5>
-                    <p class="card-text">{{$book->summary}}</p>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">{{$book->author}}</li>
-                    <li class="list-group-item">{{$book->publication_year}}</li>
-                </ul>
-                <div class="card-body">
-                    <a href="/book/edit/{{$book->id}}" class="btn btn-primary">Edit</a>
-                    <button class="btn btn-danger">Delete</button>
-                </div>
-            </div>
-        @endforeach
-    </div> -->
-
+    <input id="myInput" type="text" placeholder="Search..">
     <table class="table table-success table-striped">
         <thead>
             <tr>
@@ -51,38 +32,59 @@ td, th {
                 </th>
             </tr>
         </thead>
-        @foreach($books as $book)
-            <tr>
-                <td>
-                    {{$book->title}}
-                </td>
-                <td>
-                    {{$book->author}}
-                </td>
-                <td>
-                    {{$book->publication_year}}
-                </td>
-                <td>
-                    {{$book->summary}}
-                </td>
-                <td>
-                    <div class="row">
-                        <div class="col-12"><a href="/book/show/{{$book->id}}" class="btn btn-sm btn-info mb-2">View</a></div>
-                        <div class="col-12"><a href="/book/edit/{{$book->id}}" class="btn btn-primary mb-2">Edit</a></div>
-                        <div class="col-12">
-                            <form method="POST" action="/book/delete/{{$book->id}}">
-                                {{ csrf_field() }}
-                                {{ method_field('DELETE') }}
+        <tbody id="bookTable">
+            @foreach($books as $book)
+                <tr>
+                    <td>
+                        {{$book->title}}
+                    </td>
+                    <td>
+                        {{$book->author}}
+                    </td>
+                    <td>
+                        {{$book->publication_year}}
+                    </td>
+                    <td>
+                        {{$book->summary}}
+                    </td>
+                    <td>
+                        <div class="row">
+                            <div class="col-12"><a href="/book/show/{{$book->id}}" class="btn btn-sm btn-info mb-2">View</a></div>
+                            <div class="col-12"><a href="/book/edit/{{$book->id}}" class="btn btn-primary mb-2">Edit</a></div>
+                            <div class="col-12">
+                                <form method="POST" action="/book/delete/{{$book->id}}">
+                                    {{ csrf_field() }}
+                                    {{ method_field('DELETE') }}
 
-                                <div class="form-group">
-                                    <input type="submit" class="btn btn-danger" value="Delete">
-                                </div>
-                            </form>
+                                    <div class="form-group">
+                                        <input type="submit" class="btn btn-danger" value="Delete">
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-                    </div>
-                    
-                </td>
-            </tr>
-        @endforeach
+                        
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
     </table>
+    <div class="row">
+        <div class="col-12">
+            {{$books->links()}}
+        </div>
+    </div>
+    
+@endsection
+
+@section('javascript')
+<script>
+    $(document).ready(function(){
+    $("#myInput").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#bookTable tr").filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
+    });
+</script>
 @endsection
